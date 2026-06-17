@@ -1,0 +1,103 @@
+package Linked_list;
+class TreeNode{
+	int val;
+	TreeNode left;
+	TreeNode right;
+	TreeNode(int val){
+		this.val = val;
+	}
+}
+class BST{
+	TreeNode root;
+	
+	public void Insert(int val) {
+		root = InsertatBST(root , val);
+	}
+	
+	private TreeNode InsertatBST(TreeNode node , int val) {
+		if(node == null) {
+			return new TreeNode(val);
+		}
+		else if(val < node.val){
+			node.left = InsertatBST(node.left , val);
+		}
+		else {
+			node.right = InsertatBST(node.right , val);
+		}
+		return node;
+	}
+	public void printInorder() {
+        inorder(root);
+        System.out.println();
+    }
+
+    private void inorder(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        inorder(node.left);
+        System.out.print(node.val + " ");
+        inorder(node.right);
+    }
+    public void delete(int val) {
+    	root = deleteBST(root , val);
+    }
+    
+    private TreeNode deleteBST(TreeNode node , int val) {
+    	if(node == null) {
+    		return null;
+    	}
+    	
+    	if(val < node.val) {
+    		node.left = deleteBST(node.left , val);
+    	}
+    	else if(val > node.val) {
+    		node.right = deleteBST(node.right , val);
+    	}
+    	else {
+    		if(node.left == null && node.right == null) {
+    			return null;
+    		}
+    		else if(node.left == null) {
+    			return node.right;
+    		}
+    		else if(node.right == null) {
+    			return node.left;
+    		}
+    		else {
+    			TreeNode successor = findmin(node.right);
+    			node.val = successor.val;
+    			node.right = deleteBST(node.right , successor.val);
+    		}
+    	}
+    	return node;
+    }
+    private TreeNode findmin(TreeNode node) {
+    	while(node.left != null) {
+    		node = node.left;
+    	}
+    	return node;
+    }
+}
+
+public class Binary_Search_Tree {
+
+	public static void main(String[] args) {
+		BST tree = new BST();
+		tree.Insert(10);
+		tree.Insert(3);
+		tree.Insert(12);
+		tree.Insert(16);
+		tree.Insert(2);
+		tree.Insert(7);
+		
+		tree.printInorder();
+		
+		tree.delete(7);
+		tree.printInorder();
+		
+		
+
+	}
+
+}
